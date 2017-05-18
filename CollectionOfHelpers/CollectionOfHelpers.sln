@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionOfHelpers", "Coll
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTestingInterface", "WpfTestingInterface\WpfTestingInterface.csproj", "{BEBEF4F6-9E8C-417F-B45F-581FE08D31FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionOfHelpersTests", "CollectionOfHelpersTests\CollectionOfHelpersTests.csproj", "{9F2F7CF6-1BC0-4CA1-8570-892CCF7E74B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BEBEF4F6-9E8C-417F-B45F-581FE08D31FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEBEF4F6-9E8C-417F-B45F-581FE08D31FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEBEF4F6-9E8C-417F-B45F-581FE08D31FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F2F7CF6-1BC0-4CA1-8570-892CCF7E74B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2F7CF6-1BC0-4CA1-8570-892CCF7E74B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2F7CF6-1BC0-4CA1-8570-892CCF7E74B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2F7CF6-1BC0-4CA1-8570-892CCF7E74B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

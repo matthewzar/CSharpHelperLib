@@ -44,6 +44,11 @@ namespace WpfTestingInterface
             (treeView.Items[0] as TreeViewItem)?.ExpandToDepth((int)maxDepth);
         }
 
+        /// <summary>
+        /// Check that the treeView.ExpandToDepth works as expected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExpandTreeTest_Click(object sender, RoutedEventArgs e)
         {
             var maxDepth = IupExpandTreeDepth.Value;
@@ -54,6 +59,12 @@ namespace WpfTestingInterface
             treeView.ExpandToDepth((int)maxDepth);
         }
 
+        /// <summary>
+        /// Demo that the top node (and all it's children) are contracted if they
+        /// were expanded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnContractFirst_Click(object sender, RoutedEventArgs e)
         {
             (treeView.Items[0] as TreeViewItem)?.ContractAll();

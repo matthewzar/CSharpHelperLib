@@ -22,6 +22,7 @@ namespace CollectionOfHelpers.FileExtensions
         /// <returns></returns>
         public static bool IsFileLocked(this FileInfo file)
         {
+            //https://stackoverflow.com/questions/265953/how-can-you-easily-check-if-access-is-denied-for-a-file-in-net/265958#265958
             FileStream stream = null;
 
             try
