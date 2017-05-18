@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace CollectionOfHelpers.Reflection
@@ -27,7 +28,7 @@ namespace CollectionOfHelpers.Reflection
         /// <param name="privateFieldName">The name of the private field you want a reference to</param>
         /// <param name="result">A reference to the field (if it was found). If is wan't found, then a default value is assigned (typically null)</param>
         /// <returns>True if the field was read, false if is failed.</returns>
-        public static bool TryGetPrivateFieldReference<TInstance, TOutput>(TInstance classInstance, string privateFieldName, out TOutput result) where TOutput : class
+        public static bool TryGetPrivateReferenceField<TInstance, TOutput>(TInstance classInstance, string privateFieldName, out TOutput result) where TOutput : class
         {
             FieldInfo fi = typeof(TInstance).GetField(privateFieldName, BindingFlags.NonPublic | BindingFlags.Instance);
             if (fi == null)
@@ -54,6 +55,36 @@ namespace CollectionOfHelpers.Reflection
 
             result = castValue;
             return true;
+        }
+
+        /// <summary>
+        /// Set the value/reference of any private instance field for a given object.
+        /// Note that this method should be used with even more care than TryGetPrivateReferenceField as it
+        /// could easily put a class into an invalid state.
+        /// </summary>
+        /// <typeparam name="TInstance"></typeparam>
+        /// <typeparam name="TNewValue"></typeparam>
+        /// <param name="classInstance"></param>
+        /// <param name="privateFieldName"></param>
+        /// <param name="value">The value/reference to assign to the private field</param>
+        /// <returns>True if the field was successfully replaced</returns>
+        public static bool TrySetPrivateField<TInstance, TNewValue>(TInstance classInstance, string privateFieldName, TNewValue value)
+        {
+            FieldInfo fi = typeof(TInstance).GetField(privateFieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            //It doesn't exist:
+            if (fi == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                fi.SetValue(classInstance, value);
+                return true;
+            }
+            catch (ArgumentException){ /*Types probably didn't match*/ }
+
+            return false;
         }
     }
 }

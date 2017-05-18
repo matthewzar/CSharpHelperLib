@@ -22,13 +22,12 @@ namespace CollectionOfHelpersTests
             {
                 _privateReferenceArray = startingValues;
             }
-        }
 
-//        [TestCase(0, 1, 1)]
-//        public void TestMethod1(int defaultValue, int rows, int columns)
-//        {
-//            var sut = new List<int>();
-//        }
+            public int[] ExposePrivateField()
+            {
+                return _privateReferenceArray;
+            }
+        }
 
         [Test]
         public void DefaultPrivateReferenceRead()
@@ -38,7 +37,7 @@ namespace CollectionOfHelpersTests
 
             //act
             int[] actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "_privateReferenceArray", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "_privateReferenceArray", out actualOut);
 
             //assert
             Assert.IsTrue(actualSuccess, "Failed to read value for _privateReferenceArray field");
@@ -53,7 +52,7 @@ namespace CollectionOfHelpersTests
 
             //act
             IList<int> actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "_privateReferenceArray", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "_privateReferenceArray", out actualOut);
 
             //assert
             Assert.IsTrue(actualSuccess, "Upcasting from int[] to IList appears to have failed");
@@ -68,7 +67,7 @@ namespace CollectionOfHelpersTests
 
             //act
             double[] actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "_privateReferenceArray", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "_privateReferenceArray", out actualOut);
 
             //assert
             Assert.IsFalse(actualSuccess, "Should return false, as int[] cannot be cast to double[]");
@@ -81,7 +80,7 @@ namespace CollectionOfHelpersTests
 
             //act
             int[] actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "_noSuchPrivateField", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "_noSuchPrivateField", out actualOut);
 
             //assert
             Assert.IsFalse(actualSuccess, "Somehow found a reference to _noSuchPrivateField");
@@ -94,7 +93,7 @@ namespace CollectionOfHelpersTests
 
             //act
             int[] actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "PublicReferenceArray", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "PublicReferenceArray", out actualOut);
 
             //assert
             Assert.IsFalse(actualSuccess, "The public field PublicReferenceArray was read, when we are looking for private-only fields");
@@ -108,7 +107,7 @@ namespace CollectionOfHelpersTests
 
             //act
             int[] actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "_privateReferenceArray", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "_privateReferenceArray", out actualOut);
 
             //assert
             Assert.IsTrue(actualSuccess, "Failed to read value for _privateReferenceArray after it was set to null");
@@ -122,10 +121,54 @@ namespace CollectionOfHelpersTests
 
             //act
             int[] actualOut;
-            bool actualSuccess = PrivateManipulation.TryGetPrivateFieldReference(sut, "_privateStaticReferenceArray", out actualOut);
+            bool actualSuccess = PrivateManipulation.TryGetPrivateReferenceField(sut, "_privateStaticReferenceArray", out actualOut);
 
             //assert
             Assert.IsFalse(actualSuccess, "Static fields, even private ones, are not supposed to be readable here.");
         }
+
+        [TestCase(new int[] {1,1,1})]
+        [TestCase(null)]
+        public void SetPrivateFieldValue_ValidInputExpectingSuccess(int[] newValue)
+        {
+            var sut = new PrivateFieldEvaluator();
+
+            //act
+            bool actualSuccess = PrivateManipulation.TrySetPrivateField(sut, "_privateReferenceArray", newValue);
+            var newValueReadFromClass = sut.ExposePrivateField();
+
+            //assert
+            Assert.IsTrue(actualSuccess, "A valid assignment returned false");
+            Assert.AreEqual(newValue, newValueReadFromClass, "The two collection should be identical reference to one another");
+        }
+
+        [TestCase(new int[] { 1, 1, 1 })]
+        [TestCase(null)]
+        public void SetPrivateFieldValue_NonExistentFieldExpectingFailure(int[] newValue)
+        {
+            var sut = new PrivateFieldEvaluator();
+
+            //act
+            bool actualSuccess = PrivateManipulation.TrySetPrivateField(sut, "_noSuchField", newValue);
+
+            //assert
+            Assert.IsFalse(actualSuccess);
+        }
+
+        [TestCase(new double[] { 1, 1, 1 })]
+        [TestCase(1)]
+        public void SetPrivateFieldValue_InvalidInputTypeExpectingFailure<T>(T newValue)
+        {
+            var sut = new PrivateFieldEvaluator();
+
+            //act
+            bool actualSuccess = PrivateManipulation.TrySetPrivateField(sut, "_privateReferenceArray", newValue);
+            var newValueReadFromClass = sut.ExposePrivateField();
+
+            //assert
+            Assert.IsFalse(actualSuccess, "The types don't match, so assignment should have failed");
+        }
+
+        //TODO - add tests for TrySetPrivateField that attempt to set public and static fields.
     }
 }
