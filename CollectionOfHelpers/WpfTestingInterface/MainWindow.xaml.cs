@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CollectionOfHelpers.GeneralExtensions;
+using CollectionOfHelpers.Threading;
 
 namespace WpfTestingInterface
 {
@@ -41,7 +43,7 @@ namespace WpfTestingInterface
             {
                 return;
             }
-            (treeView.Items[0] as TreeViewItem)?.ExpandToDepth((int)maxDepth);
+            (treeView.Items[0] as TreeViewItem)?.ExpandToDepth((int) maxDepth);
         }
 
         /// <summary>
@@ -56,7 +58,7 @@ namespace WpfTestingInterface
             {
                 return;
             }
-            treeView.ExpandToDepth((int)maxDepth);
+            treeView.ExpandToDepth((int) maxDepth);
         }
 
         /// <summary>
@@ -73,6 +75,53 @@ namespace WpfTestingInterface
         private void BtnContractTree_Click(object sender, RoutedEventArgs e)
         {
             treeView.ContractAll();
+        }
+
+        private Thread[] ThreadsToMonitor;
+        //private ThreadedEventCounter threadedEventCounter;
+
+        private void BtnStartThreadMonitoring_Click(object sender, RoutedEventArgs e)
+        {
+            if (ThreadsToMonitor != null)
+            {
+                return;
+            }
+
+            //notice that this is declared locally, and not directly stored, but it's outputs continue to show up.
+            //This is because a reference to it exists inside each of the child threads.
+            //However even without that reference the isntance  and it's thread will continue to work as they are self-referential (at least until the first timeout event)
+            ThreadedEventCounter threadedEventCounter = new ThreadedEventCounter(new[]{"Odd","Even"}, 5, 5000, 100);
+            ThreadsToMonitor = new Thread[5];
+            for (int i = 0; i < 5; i++)
+            {
+                var threadID = i;
+                ThreadsToMonitor[i] = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        Console.WriteLine(threadID + "");
+                        Thread.Sleep(1000+threadID*10);
+                        threadedEventCounter.IncrementEvent(threadID%2 == 0 ? "Even" : "Odd");
+                    }
+                });
+
+                ThreadsToMonitor[i].Start();
+            }
+        }
+
+        private void BtnKillThreads_Click(object sender, RoutedEventArgs e)
+        {
+            if (ThreadsToMonitor == null)
+            {
+                return;
+            }
+
+            foreach (var thread in ThreadsToMonitor)
+            {
+                thread.Abort();
+            }
+            ThreadsToMonitor = null;
+
         }
     }
 }

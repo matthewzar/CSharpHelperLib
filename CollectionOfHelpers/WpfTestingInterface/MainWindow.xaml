@@ -28,5 +28,7 @@
         <xctk:IntegerUpDown x:Name="IupExpandTreeDepth" Margin="350,36,0,0" Maximum="5" Minimum="0" RenderTransformOrigin="0.677,0.517" Text="0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="43"/>
         <Button x:Name="BtnContractFirst" Content="Contract First" HorizontalAlignment="Left" Margin="221,61,0,0" VerticalAlignment="Top" Width="125" Click="BtnContractFirst_Click"/>
         <Button x:Name="BtnContractTree" Content="Contract All" HorizontalAlignment="Left" Margin="221,86,0,0" VerticalAlignment="Top" Width="125" Click="BtnContractTree_Click"/>
+        <Button x:Name="BtnStartThreadMonitoring" Content="Start Thread Monitor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="119" Click="BtnStartThreadMonitoring_Click"/>
+        <Button x:Name="BtnKillThreads" Content="Kill Threads" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="119" Click="BtnKillThreads_Click"/>
     </Grid>
 </Window>
