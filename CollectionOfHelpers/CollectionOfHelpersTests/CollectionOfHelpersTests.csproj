@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="PrivateManipulationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions\StringFormattingTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
