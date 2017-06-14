@@ -44,6 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileExtensions\FileModification.cs" />
     <Compile Include="FileExtensions\FileStatusChecks.cs" />
     <Compile Include="GeneralExtensions\WpfFunctionality.cs" />
     <Compile Include="GeneralExtensions\WpfReadability.cs" />
