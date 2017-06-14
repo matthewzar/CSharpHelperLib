@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace CollectionOfHelpers.GeneralExtensions
 {
@@ -81,6 +82,16 @@ namespace CollectionOfHelpers.GeneralExtensions
                 var expandableChild = childNode as TreeViewItem;
                 expandableChild?.ContractAll();
             }
+        }
+        #endregion
+
+        #region ProgressBar Extensions
+        public static void SetPercent(this ProgressBar progressBar, double percentage, int duration = 2)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(duration);
+
+            DoubleAnimation animation = new DoubleAnimation(percentage, time);
+            progressBar.BeginAnimation(ProgressBar.ValueProperty, animation);
         }
         #endregion
     }

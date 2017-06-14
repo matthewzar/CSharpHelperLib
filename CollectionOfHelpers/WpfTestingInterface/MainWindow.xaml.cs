@@ -123,5 +123,20 @@ namespace WpfTestingInterface
             ThreadsToMonitor = null;
 
         }
+
+        private void BtnShowProgress_Click(object sender, RoutedEventArgs e)
+        {
+            PrgProgressBar.SetPercent(100, 2);
+        }
+
+        private void BtnReverse_Click(object sender, RoutedEventArgs e)
+        {
+            PrgProgressBar.SetPercent(0, 2);
+        }
+
+        private void BtnReset_Click(object sender, RoutedEventArgs e)
+        {
+            PrgProgressBar.SetPercent(0, 0);
+        }
     }
 }
