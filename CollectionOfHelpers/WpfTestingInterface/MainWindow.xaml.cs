@@ -136,7 +136,10 @@ namespace WpfTestingInterface
 
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
+            //Instantly sets the Progressbar percentage to 0
             PrgProgressBar.SetPercent(0, 0);
+            //If you use the animation ability you won't be able to use Progressbar.Value anymore
+            //PrgProgressBar.Value = 0; <-- Doesn't work
         }
     }
 }
