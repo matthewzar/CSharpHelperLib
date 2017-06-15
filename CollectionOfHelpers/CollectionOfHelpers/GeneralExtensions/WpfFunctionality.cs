@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace CollectionOfHelpers.GeneralExtensions
 {
@@ -81,6 +82,22 @@ namespace CollectionOfHelpers.GeneralExtensions
                 var expandableChild = childNode as TreeViewItem;
                 expandableChild?.ContractAll();
             }
+        }
+        #endregion
+
+        #region ProgressBar Extensions
+        /// <summary>
+        /// Smoothly animates the transition of a ProgressBar from it's current value to the specified percentage. This method doesn't care what the starting percentage is, and can animate from left to right or vice versa.
+        /// </summary>
+        /// <param name="progressBar"></param>
+        /// <param name="percentage">The value the progressbar needs to transition to</param>
+        /// <param name="duration">The seconds over which the animation occurs</param>
+        public static void SetPercent(this ProgressBar progressBar, double percentage, int duration = 2)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(duration);
+
+            DoubleAnimation animation = new DoubleAnimation(percentage, time);
+            progressBar.BeginAnimation(ProgressBar.ValueProperty, animation);
         }
         #endregion
     }

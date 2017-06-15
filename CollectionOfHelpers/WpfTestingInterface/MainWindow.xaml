@@ -30,5 +30,13 @@
         <Button x:Name="BtnContractTree" Content="Contract All" HorizontalAlignment="Left" Margin="221,86,0,0" VerticalAlignment="Top" Width="125" Click="BtnContractTree_Click"/>
         <Button x:Name="BtnStartThreadMonitoring" Content="Start Thread Monitor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="119" Click="BtnStartThreadMonitoring_Click"/>
         <Button x:Name="BtnKillThreads" Content="Kill Threads" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="119" Click="BtnKillThreads_Click"/>
+        <GroupBox Header="Progress Example" Margin="11,221,171,10">
+            <Grid>
+                <ProgressBar x:Name="PrgProgressBar" HorizontalAlignment="Left" Height="23" Margin="10,35,0,0" VerticalAlignment="Top" Width="304"/>
+                <Button x:Name="BtnShowProgress" Content="Show Progress" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="101" Click="BtnShowProgress_Click"/>
+                <Button x:Name="BtnReset" Content="Reset" HorizontalAlignment="Left" Margin="239,10,0,0" VerticalAlignment="Top" Width="75" Click="BtnReset_Click"/>
+                <Button x:Name="BtnReverse" Content="Reverse" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top" Width="75" Click="BtnReverse_Click"/>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
