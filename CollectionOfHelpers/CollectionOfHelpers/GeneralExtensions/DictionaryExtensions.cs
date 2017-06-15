@@ -10,6 +10,7 @@ namespace CollectionOfHelpers.GeneralExtensions
     {
         /// <summary>
         /// Add the key-value pair to the dictionary and return true if the key doesn't already exist in the dictionary. Return false if the key already exists.
+        /// Similar behaviour to Hashset.add() since no exception is thrown.
         /// </summary>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TValue"></typeparam>
