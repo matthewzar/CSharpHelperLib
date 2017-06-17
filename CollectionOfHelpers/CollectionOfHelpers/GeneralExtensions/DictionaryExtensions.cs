@@ -31,7 +31,16 @@ namespace CollectionOfHelpers.GeneralExtensions
             }
         }
 
-
+        /// <summary>
+        /// If the key exists in the dictionary then update the value associated with the key. If the key doesn't exist then the key-value pari are added to the dictionary.
+        /// NOTE: returns dictionary however the original dictionary is updated as well.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static Dictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary.ContainsKey(key))
