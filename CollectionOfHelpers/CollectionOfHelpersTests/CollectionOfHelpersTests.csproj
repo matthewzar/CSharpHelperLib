@@ -67,7 +67,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DictionaryExtensions.cs" />
+    <Compile Include="DictionaryExtensionTests.cs" />
     <Compile Include="FileExtensions\FileModificationTests.cs" />
     <Compile Include="PrivateManipulationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
