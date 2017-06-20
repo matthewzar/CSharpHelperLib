@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="FileExtensions\FileModification.cs" />
     <Compile Include="FileExtensions\FileStatusChecks.cs" />
+    <Compile Include="GeneralExtensions\DictionaryExtensions.cs" />
     <Compile Include="GeneralExtensions\WpfFunctionality.cs" />
     <Compile Include="GeneralExtensions\WpfReadability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
