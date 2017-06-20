@@ -1,0 +1,14 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTestingInterface.ProgressDialogs"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="WpfTestingInterface.ProgressDialogs.PinWheelDialog"
+        mc:Ignorable="d"
+        Title="PinWheelDialog" Height="168.557" Width="300">
+    <Grid>
+        <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="207,38,0,0" VerticalAlignment="Top" Width="75"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" />
+    </Grid>
+</Window>

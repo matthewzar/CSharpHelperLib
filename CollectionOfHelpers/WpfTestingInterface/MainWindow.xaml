@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfTestingInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500.644" Width="525">
     <Grid>
         <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="203" Margin="398,10,0,0" VerticalAlignment="Top" Width="109">
             <TreeViewItem Header="1.1">
@@ -30,12 +30,19 @@
         <Button x:Name="BtnContractTree" Content="Contract All" HorizontalAlignment="Left" Margin="221,86,0,0" VerticalAlignment="Top" Width="125" Click="BtnContractTree_Click"/>
         <Button x:Name="BtnStartThreadMonitoring" Content="Start Thread Monitor" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="119" Click="BtnStartThreadMonitoring_Click"/>
         <Button x:Name="BtnKillThreads" Content="Kill Threads" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="119" Click="BtnKillThreads_Click"/>
-        <GroupBox Header="Progress Example" Margin="11,221,171,10">
+        <GroupBox Header="Progress Example" Margin="11,221,171,161">
             <Grid>
                 <ProgressBar x:Name="PrgProgressBar" HorizontalAlignment="Left" Height="23" Margin="10,35,0,0" VerticalAlignment="Top" Width="304"/>
                 <Button x:Name="BtnShowProgress" Content="Show Progress" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="101" Click="BtnShowProgress_Click"/>
                 <Button x:Name="BtnReset" Content="Reset" HorizontalAlignment="Left" Margin="239,10,0,0" VerticalAlignment="Top" Width="75" Click="BtnReset_Click"/>
                 <Button x:Name="BtnReverse" Content="Reverse" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top" Width="75" Click="BtnReverse_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="ProgressDialog Example" Margin="10,324,201,84">
+            <Grid>
+                <Button x:Name="BtnProgressBarDialog" Content="ProgressBar" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="83"/>
+                <Button x:Name="BtnPinWheelDialog" Content="Pin wheel" HorizontalAlignment="Left" Margin="215,10,0,0" VerticalAlignment="Top" Width="70"/>
+                <Button x:Name="BtnProgressIndicatorDialog" Content="Progress Indicator" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="112"/>
             </Grid>
         </GroupBox>
     </Grid>
