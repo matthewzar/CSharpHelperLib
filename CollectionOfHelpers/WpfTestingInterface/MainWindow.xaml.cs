@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CollectionOfHelpers.GeneralExtensions;
 using CollectionOfHelpers.Threading;
+using System.ComponentModel;
+using WpfTestingInterface.ProgressDialogs;
 
 namespace WpfTestingInterface
 {
@@ -27,6 +29,9 @@ namespace WpfTestingInterface
         {
             InitializeComponent();
         }
+
+        private BackgroundWorker bw = new BackgroundWorker();
+        Window pop;
 
         /// <summary>
         /// Expand the TreeViewItem from the first root node in it's collection.
@@ -124,22 +129,114 @@ namespace WpfTestingInterface
 
         }
 
+        /// <summary>
+        /// Demo the animation of the progressbar from current value to 100% over 2 seconds
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnShowProgress_Click(object sender, RoutedEventArgs e)
         {
             PrgProgressBar.SetPercent(100, 2);
         }
 
+        /// <summary>
+        /// Demo the animation of the progressbar from current value to 0% over 2 seconds
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnReverse_Click(object sender, RoutedEventArgs e)
         {
             PrgProgressBar.SetPercent(0, 2);
         }
 
+        /// <summary>
+        /// Demo the animation of the progressbar from current value to 0% over 0 seconds (instant reset)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnReset_Click(object sender, RoutedEventArgs e)
         {
             //Instantly sets the Progressbar percentage to 0
             PrgProgressBar.SetPercent(0, 0);
             //If you use the animation ability you won't be able to use Progressbar.Value anymore
             //PrgProgressBar.Value = 0; <-- Doesn't work
+        }
+
+        /// <summary>
+        /// Initialising the window with a BackGroundWorker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            bw.WorkerReportsProgress = true;          
+            bw.DoWork += bw_DoWork; 
+            bw.RunWorkerCompleted += bw_RunWorkerCompleted;
+        }
+
+        /// <summary>
+        /// Demo of a Dialog box with a progressbar that gets updated by a BackGroundWorker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnProgressBarDialog_Click(object sender, RoutedEventArgs e)
+        {
+            pop = new ProgressBarDialog(bw);
+
+            bw.WorkerSupportsCancellation = true;
+            bw.ProgressChanged += bw_ProgressChanged;
+            bw.RunWorkerAsync();
+
+            pop.ShowDialog();
+        }
+
+        /// <summary>
+        /// Worker Complete event for the BackGroundWorker. It closes the progressdialog and reports whether the action was cancelled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            pop.Close();
+            if (e.Cancelled)
+            {
+                MessageBox.Show("Process was cancelled");
+            }
+        }
+
+        /// <summary>
+        /// Progress Changed event for the BackGroundWorker. If the worker isn't being cancelled then it updates the progressbar.
+        /// This will change as different dialogs are created
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (!bw.CancellationPending)
+            {
+                (pop as ProgressBarDialog).PrgProgressBar.SetPercent(e.ProgressPercentage);
+            }          
+        }
+
+        /// <summary>
+        /// DoWork event for the BackGroundWorker. The thread sleeps for a while and updates progress in a loop.
+        /// If the BackGroundWorker is being cancelled then we exit the loop.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            for (int i = 1; i < 25; i++)
+            {   
+                bw.ReportProgress(i*4);
+                Thread.Sleep(2000);
+
+                if (bw.CancellationPending)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
         }
     }
 }

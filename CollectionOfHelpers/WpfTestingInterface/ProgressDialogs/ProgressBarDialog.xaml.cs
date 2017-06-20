@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CollectionOfHelpers.GeneralExtensions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,28 @@ namespace WpfTestingInterface.ProgressDialogs
     /// </summary>
     public partial class ProgressBarDialog : Window
     {
-        public ProgressBarDialog()
+        /// <summary>
+        /// This is the instance of the BackGroundWorker which will be cancelled if the cancel button is clicked.
+        /// </summary>
+        BackgroundWorker worker;
+
+        public ProgressBarDialog(BackgroundWorker bw)
         {
             InitializeComponent();
+
+            PrgProgressBar.SetPercent(0);
+
+            worker = bw;
+        }
+
+        /// <summary>
+        /// Button that will cancel the BackGroundWorker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            worker.CancelAsync();
         }
     }
 }
