@@ -41,18 +41,12 @@ namespace CollectionOfHelpers.GeneralExtensions
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Dictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        public static void AddOrUpdate<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
-            if (dictionary.ContainsKey(key))
+            if (!dictionary.TryAdd(key,value))
             {
                 dictionary[key] = value;
             }
-            else
-            {
-                dictionary.Add(key, value);
-            }
-
-            return dictionary;
         }
     }
 }
