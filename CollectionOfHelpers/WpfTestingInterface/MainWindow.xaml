@@ -38,11 +38,12 @@
                 <Button x:Name="BtnReverse" Content="Reverse" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top" Width="75" Click="BtnReverse_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="ProgressDialog Example" Margin="10,324,201,78">
+        <GroupBox Header="ProgressDialog Example" Margin="10,324,201,44">
             <Grid>
                 <Button x:Name="BtnProgressBarDialog" Content="ProgressBar" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="83" Click="BtnProgressBarDialog_Click"/>
-                <Button x:Name="BtnPinWheelDialog" Content="Pin wheel" HorizontalAlignment="Left" Margin="215,10,0,0" VerticalAlignment="Top" Width="70"/>
+                <Button x:Name="BtnPinWheelDialog" Content="Pin wheel" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Width="83"/>
                 <Button x:Name="BtnProgressIndicatorDialog" Content="Progress Indicator" HorizontalAlignment="Left" Margin="98,10,0,0" VerticalAlignment="Top" Width="112"/>
+                <Button x:Name="BtnBusyIndicator" Content="Busy Indicator" HorizontalAlignment="Left" Margin="98,35,0,0" VerticalAlignment="Top" Width="112" Click="BtnBusyIndicator_Click"/>
             </Grid>
         </GroupBox>
     </Grid>

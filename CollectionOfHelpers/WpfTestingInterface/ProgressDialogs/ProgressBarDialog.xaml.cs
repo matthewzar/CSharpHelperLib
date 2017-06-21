@@ -41,12 +41,23 @@ namespace WpfTestingInterface.ProgressDialogs
 
             PrgProgressBar.SetPercent(0);
 
+            InitialiseWorker(doWork, workerComplete);
+        }
+
+        /// <summary>
+        /// Initialises the settings for the BackGroundWorker
+        /// </summary>
+        /// <param name="doWork"></param>
+        /// <param name="workerComplete"></param>
+        private void InitialiseWorker(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler workerComplete)
+        {
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
+            worker.ProgressChanged += bw_ProgressChanged;
+
             worker.DoWork += doWork;
             worker.RunWorkerCompleted += workerComplete;
-            worker.WorkerSupportsCancellation = true;
-            worker.ProgressChanged += bw_ProgressChanged;          
+            worker.WorkerSupportsCancellation = true;          
         }
 
         /// <summary>
@@ -73,6 +84,11 @@ namespace WpfTestingInterface.ProgressDialogs
             }
         }
 
+        /// <summary>
+        /// The worker needs to begin executing once the window is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             worker.RunWorkerAsync();

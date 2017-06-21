@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:WpfTestingInterface.ProgressDialogs"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
-        Title="BusyIndicator" Height="300" Width="300">
+        Title="BusyIndicator" Height="136.874" Width="200.625" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
-        <xctk:BusyIndicator Content="BusyIndicator" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="207,38,0,0" VerticalAlignment="Top" Width="75"/>
+        <xctk:BusyIndicator Name="BusyBar" Content="BusyIndicator" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsBusy="False"/>
+        <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="58,74,0,0" VerticalAlignment="Top" Width="75" Click="BtnCancel_Click"/>
     </Grid>
 </Window>

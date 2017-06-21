@@ -179,18 +179,6 @@ namespace WpfTestingInterface
 
         #region ProgressDialog examples
         /// <summary>
-        /// Demo of a Dialog box with a progressbar that gets updated by a BackGroundWorker
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnProgressBarDialog_Click(object sender, RoutedEventArgs e)
-        {
-            pop = new ProgressBarDialog(bw_DoWork, bw_RunWorkerCompleted);
-
-            pop.ShowDialog();
-        }
-
-        /// <summary>
         /// Worker Complete event for the BackGroundWorker. It closes the progressdialog and reports whether the action was cancelled
         /// </summary>
         /// <param name="sender"></param>
@@ -215,7 +203,10 @@ namespace WpfTestingInterface
             var theWorker = sender as BackgroundWorker;
             for (int i = 1; i < 25; i++)
             {
-                theWorker.ReportProgress(i*4);
+                if (theWorker.WorkerReportsProgress)
+                {
+                    theWorker.ReportProgress(i * 4);
+                } 
                 Thread.Sleep(2000);
 
                 if (theWorker.CancellationPending)
@@ -225,6 +216,27 @@ namespace WpfTestingInterface
                 }
             }
         }
+
+        /// <summary>
+        /// Demo of a Dialog box with a progressbar that gets updated by a BackGroundWorker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnProgressBarDialog_Click(object sender, RoutedEventArgs e)
+        {
+            pop = new ProgressBarDialog(bw_DoWork, bw_RunWorkerCompleted);
+
+            pop.ShowDialog();
+        }
+
+        private void BtnBusyIndicator_Click(object sender, RoutedEventArgs e)
+        {
+            pop = new BusyIndicator(bw_DoWork, bw_RunWorkerCompleted);
+
+            pop.ShowDialog();
+        }
         #endregion
+
+
     }
 }
