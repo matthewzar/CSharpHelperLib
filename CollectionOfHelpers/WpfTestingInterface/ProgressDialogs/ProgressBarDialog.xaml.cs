@@ -35,6 +35,20 @@ namespace WpfTestingInterface.ProgressDialogs
             worker = bw;
         }
 
+        public ProgressBarDialog(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler workerComplete)
+        {
+            InitializeComponent();
+
+            PrgProgressBar.SetPercent(0);
+
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += doWork;
+            worker.RunWorkerCompleted += workerComplete;
+            worker.WorkerSupportsCancellation = true;
+            worker.ProgressChanged += bw_ProgressChanged;          
+        }
+
         /// <summary>
         /// Button that will cancel the BackGroundWorker
         /// </summary>
@@ -43,6 +57,25 @@ namespace WpfTestingInterface.ProgressDialogs
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             worker.CancelAsync();
+        }
+
+        /// <summary>
+        /// Progress Changed event for the BackGroundWorker. If the worker isn't being cancelled then it updates the progressbar.
+        /// This will change as different dialogs are created
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (!worker.CancellationPending)
+            {
+                PrgProgressBar.SetPercent(e.ProgressPercentage);
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            worker.RunWorkerAsync();
         }
     }
 }

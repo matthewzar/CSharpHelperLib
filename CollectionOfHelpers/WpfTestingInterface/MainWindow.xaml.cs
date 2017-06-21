@@ -30,7 +30,10 @@ namespace WpfTestingInterface
             InitializeComponent();
         }
 
-        private BackgroundWorker bw = new BackgroundWorker();
+        /// <summary>
+        /// This is the window being used to display the progress of a backgroundworker thread.
+        /// The worker belongs to the window.
+        /// </summary>
         Window pop;
 
         /// <summary>
@@ -129,6 +132,7 @@ namespace WpfTestingInterface
 
         }
 
+        #region Smooth Progressbar animation
         /// <summary>
         /// Demo the animation of the progressbar from current value to 100% over 2 seconds
         /// </summary>
@@ -161,6 +165,7 @@ namespace WpfTestingInterface
             //If you use the animation ability you won't be able to use Progressbar.Value anymore
             //PrgProgressBar.Value = 0; <-- Doesn't work
         }
+        #endregion
 
         /// <summary>
         /// Initialising the window with a BackGroundWorker
@@ -169,11 +174,10 @@ namespace WpfTestingInterface
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            bw.WorkerReportsProgress = true;          
-            bw.DoWork += bw_DoWork; 
-            bw.RunWorkerCompleted += bw_RunWorkerCompleted;
+
         }
 
+        #region ProgressDialog examples
         /// <summary>
         /// Demo of a Dialog box with a progressbar that gets updated by a BackGroundWorker
         /// </summary>
@@ -181,11 +185,7 @@ namespace WpfTestingInterface
         /// <param name="e"></param>
         private void BtnProgressBarDialog_Click(object sender, RoutedEventArgs e)
         {
-            pop = new ProgressBarDialog(bw);
-
-            bw.WorkerSupportsCancellation = true;
-            bw.ProgressChanged += bw_ProgressChanged;
-            bw.RunWorkerAsync();
+            pop = new ProgressBarDialog(bw_DoWork, bw_RunWorkerCompleted);
 
             pop.ShowDialog();
         }
@@ -205,20 +205,6 @@ namespace WpfTestingInterface
         }
 
         /// <summary>
-        /// Progress Changed event for the BackGroundWorker. If the worker isn't being cancelled then it updates the progressbar.
-        /// This will change as different dialogs are created
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            if (!bw.CancellationPending)
-            {
-                (pop as ProgressBarDialog).PrgProgressBar.SetPercent(e.ProgressPercentage);
-            }          
-        }
-
-        /// <summary>
         /// DoWork event for the BackGroundWorker. The thread sleeps for a while and updates progress in a loop.
         /// If the BackGroundWorker is being cancelled then we exit the loop.
         /// </summary>
@@ -226,17 +212,19 @@ namespace WpfTestingInterface
         /// <param name="e"></param>
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
+            var theWorker = sender as BackgroundWorker;
             for (int i = 1; i < 25; i++)
-            {   
-                bw.ReportProgress(i*4);
+            {
+                theWorker.ReportProgress(i*4);
                 Thread.Sleep(2000);
 
-                if (bw.CancellationPending)
+                if (theWorker.CancellationPending)
                 {
                     e.Cancel = true;
                     return;
                 }
             }
         }
+        #endregion
     }
 }
