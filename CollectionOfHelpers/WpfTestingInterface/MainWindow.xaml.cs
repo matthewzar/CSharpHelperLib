@@ -245,5 +245,12 @@ namespace WpfTestingInterface
             pop.ShowDialog();
         }
         #endregion
+
+        private void BtnPinWheelDialog_Click(object sender, RoutedEventArgs e)
+        {
+            pop = new PinWheelDialog();
+
+            pop.ShowDialog();
+        }
     }
 }
