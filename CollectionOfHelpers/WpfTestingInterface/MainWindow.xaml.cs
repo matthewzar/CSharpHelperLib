@@ -225,6 +225,8 @@ namespace WpfTestingInterface
         private void BtnProgressBarDialog_Click(object sender, RoutedEventArgs e)
         {
             pop = new ProgressBarDialog(bw_DoWork, bw_RunWorkerCompleted);
+            //Makes the progressbar value label invisible
+            //pop = new ProgressBarDialog(bw_DoWork, bw_RunWorkerCompleted, false);
 
             pop.ShowDialog();
         }
@@ -235,8 +237,13 @@ namespace WpfTestingInterface
 
             pop.ShowDialog();
         }
+
+        private void BtnProgressIndicatorDialog_Click(object sender, RoutedEventArgs e)
+        {
+            pop = new ProgressIndicatorDialog(bw_DoWork, bw_RunWorkerCompleted);
+
+            pop.ShowDialog();
+        }
         #endregion
-
-
     }
 }

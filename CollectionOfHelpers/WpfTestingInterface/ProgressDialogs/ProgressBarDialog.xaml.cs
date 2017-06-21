@@ -26,20 +26,22 @@ namespace WpfTestingInterface.ProgressDialogs
         /// </summary>
         BackgroundWorker worker;
 
-        public ProgressBarDialog(BackgroundWorker bw)
+        public ProgressBarDialog(BackgroundWorker bw, bool statusVisible = true)
         {
             InitializeComponent();
 
             PrgProgressBar.SetPercent(0);
+            textBlock.Visibility = statusVisible ? Visibility.Visible : Visibility.Collapsed;
 
             worker = bw;
         }
 
-        public ProgressBarDialog(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler workerComplete)
+        public ProgressBarDialog(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler workerComplete, bool statusVisible = true)
         {
             InitializeComponent();
 
             PrgProgressBar.SetPercent(0);
+            textBlock.Visibility = statusVisible ? Visibility.Visible : Visibility.Collapsed;
 
             InitialiseWorker(doWork, workerComplete);
         }
