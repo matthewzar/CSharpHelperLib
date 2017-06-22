@@ -31,12 +31,6 @@ namespace WpfTestingInterface
         }
 
         /// <summary>
-        /// This is the window being used to display the progress of a backgroundworker thread.
-        /// The worker belongs to the window.
-        /// </summary>
-        Window pop;
-
-        /// <summary>
         /// Expand the TreeViewItem from the first root node in it's collection.
         /// The depth is specified by IupExpandDepth - a depth of 0 shouldn't expand anything.
         /// IMPORTANT: only the first node is expanded, as the extension method being tested is
@@ -167,17 +161,13 @@ namespace WpfTestingInterface
         }
         #endregion
 
-        /// <summary>
-        /// Initialising the window with a BackGroundWorker
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         #region ProgressDialog examples
+        /// <summary>
+        /// This is the window being used to display the progress of a backgroundworker thread.
+        /// The worker belongs to the window.
+        /// </summary>
+        Window pop;
+
         /// <summary>
         /// Worker Complete event for the BackGroundWorker. It closes the progressdialog and reports whether the action was cancelled
         /// </summary>
@@ -219,6 +209,9 @@ namespace WpfTestingInterface
 
         /// <summary>
         /// Demo of a Dialog box with a progressbar that gets updated by a BackGroundWorker
+        /// The BackGroundWorker can either be sent through to the dialog or created by the dialog
+        /// Background worker reports progress
+        /// Optional Label which shows the current progress
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -231,6 +224,13 @@ namespace WpfTestingInterface
             pop.ShowDialog();
         }
 
+        /// <summary>
+        /// Demo of a Dialog box with a busy indicator
+        /// The BackGroundWorker can either be sent through to the dialog or created by the dialog
+        /// Background worker doesn't report progress
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnBusyIndicator_Click(object sender, RoutedEventArgs e)
         {
             pop = new BusyIndicator(bw_DoWork, bw_RunWorkerCompleted);
@@ -238,19 +238,34 @@ namespace WpfTestingInterface
             pop.ShowDialog();
         }
 
+        /// <summary>
+        /// Demo of a Dialog box with a progressbar set to IsIndeterminate="True"
+        /// The BackGroundWorker can either be sent through to the dialog or created by the dialog
+        /// Background worker doesn't report progress
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnProgressIndicatorDialog_Click(object sender, RoutedEventArgs e)
         {
             pop = new ProgressIndicatorDialog(bw_DoWork, bw_RunWorkerCompleted);
 
             pop.ShowDialog();
         }
-        #endregion
 
+        /// <summary>
+        /// Demo of a Dialog box with a spinning image (pin wheel animation)
+        /// The BackGroundWorker can either be sent through to the dialog or created by the dialog
+        /// Background worker doesn't report progress
+        /// The speed of the animation can't be set on creation of the window, it is a static resource in the animation style
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPinWheelDialog_Click(object sender, RoutedEventArgs e)
         {
-            pop = new PinWheelDialog();
+            pop = new PinWheelDialog(bw_DoWork, bw_RunWorkerCompleted);
 
             pop.ShowDialog();
         }
+        #endregion
     }
 }

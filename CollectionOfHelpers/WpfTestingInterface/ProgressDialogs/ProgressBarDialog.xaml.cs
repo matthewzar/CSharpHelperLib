@@ -29,6 +29,7 @@ namespace WpfTestingInterface.ProgressDialogs
         public ProgressBarDialog(BackgroundWorker bw, bool statusVisible = true)
         {
             InitializeComponent();
+            WindowSetup();
 
             PrgProgressBar.SetPercent(0);
             textBlock.Visibility = statusVisible ? Visibility.Visible : Visibility.Collapsed;
@@ -39,6 +40,7 @@ namespace WpfTestingInterface.ProgressDialogs
         public ProgressBarDialog(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler workerComplete, bool statusVisible = true)
         {
             InitializeComponent();
+            WindowSetup();
 
             PrgProgressBar.SetPercent(0);
             textBlock.Visibility = statusVisible ? Visibility.Visible : Visibility.Collapsed;
@@ -60,6 +62,16 @@ namespace WpfTestingInterface.ProgressDialogs
             worker.DoWork += doWork;
             worker.RunWorkerCompleted += workerComplete;
             worker.WorkerSupportsCancellation = true;          
+        }
+
+        private void WindowSetup()
+        {
+            InitializeComponent();
+
+            Application curApp = Application.Current;
+            Window mainWindow = curApp.MainWindow;
+            this.Left = mainWindow.Left + (mainWindow.Width - this.Width) / 2;
+            this.Top = mainWindow.Top + (mainWindow.Height - this.Height) / 2;
         }
 
         /// <summary>
@@ -94,6 +106,11 @@ namespace WpfTestingInterface.ProgressDialogs
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             worker.RunWorkerAsync();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            worker.CancelAsync();
         }
     }
 }

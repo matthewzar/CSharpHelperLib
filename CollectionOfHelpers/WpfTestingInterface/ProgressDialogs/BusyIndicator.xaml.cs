@@ -28,6 +28,7 @@ namespace WpfTestingInterface.ProgressDialogs
         public BusyIndicator(BackgroundWorker bw)
         {
             InitializeComponent();
+            WindowSetup();
 
             BusyBar.IsBusy = true;
 
@@ -37,6 +38,7 @@ namespace WpfTestingInterface.ProgressDialogs
         public BusyIndicator(DoWorkEventHandler doWork, RunWorkerCompletedEventHandler workerComplete)
         {
             InitializeComponent();
+            WindowSetup();
 
             BusyBar.IsBusy = true;
 
@@ -57,6 +59,16 @@ namespace WpfTestingInterface.ProgressDialogs
             worker.WorkerSupportsCancellation = true;
         }
 
+        private void WindowSetup()
+        {
+            InitializeComponent();
+
+            Application curApp = Application.Current;
+            Window mainWindow = curApp.MainWindow;
+            this.Left = mainWindow.Left + (mainWindow.Width - this.Width) / 2;
+            this.Top = mainWindow.Top + (mainWindow.Height - this.Height) / 2;
+        }
+
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             worker.CancelAsync();
@@ -65,6 +77,7 @@ namespace WpfTestingInterface.ProgressDialogs
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             BusyBar.IsBusy = false;
+            worker.CancelAsync();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
