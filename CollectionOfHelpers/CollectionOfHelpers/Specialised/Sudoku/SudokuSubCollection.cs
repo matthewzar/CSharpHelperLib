@@ -8,23 +8,38 @@ namespace CollectionOfHelpers.Specialised.Sudoku
 {
     public class SudokuSubCollection
     {
-        private ValueLimitedPuzzleCell[] cells;
+        private SudokuCell[] cells;
 
         public SudokuSubCollection(int length)
         {
-            cells = new ValueLimitedPuzzleCell[length];
+            cells = new SudokuCell[length];
             for (int i = 0; i < length; i++)
             {
                 cells[i] = new SudokuCell(length);
             }
         }
 
-        public ValueLimitedPuzzleCell this[int index]
+        public void AssignValue(int position, int value)
         {
-            get { return cells[index]; }
-            set { cells[index] = value; }
+            cells[position].AssignValue(value);
+            RemovePossibility(value);
         }
 
+        public void RemovePossibility(int value)
+        {
+            foreach (var cell in cells)
+            {
+                cell.RemovePossibility(value);
+            }
+        }
+
+        //Set as obsolete becuase it exposes too much of the puzzles under-workings
+        public SudokuCell this[int index]
+        {
+            get => cells[index];
+            set => cells[index] = value;
+        }
+        
         public override string ToString()
         {
             return string.Join<ValueLimitedPuzzleCell>(",", cells);

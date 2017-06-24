@@ -103,6 +103,14 @@ namespace CollectionOfHelpers.Specialised.Sudoku
 
         public ValueLimitedPuzzleCell this[int x, int y] => Columns[x][y];
 
+        public void AssignValue(int x, int y, int value)
+        {
+            Columns[x].AssignValue(y, value);
+            Rows[y].RemovePossibility(value);
+            var boxNum = convertRowColToBoxNum(x, y);
+            Boxes[boxNum].RemovePossibility(value);
+        }
+
         public override string ToString()
         {
             return string.Join<SudokuSubCollection>("\n", Rows);

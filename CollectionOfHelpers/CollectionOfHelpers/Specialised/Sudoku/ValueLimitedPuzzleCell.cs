@@ -7,6 +7,10 @@ using CollectionOfHelpersTests.Sudoku;
 
 namespace CollectionOfHelpers.Specialised.Sudoku
 {
+    /// <summary>
+    /// A single cell in a numeric puzzles, tracks the chosen value
+    /// the possible values, and eventually the correct value.
+    /// </summary>
     public abstract class ValueLimitedPuzzleCell
     {
         private const int START_VALUE = -1;
@@ -27,13 +31,19 @@ namespace CollectionOfHelpers.Specialised.Sudoku
 
         public void AssignValue(int value)
         {
-            if (value <= 0 || !PossibleValues.Contains(value))
+            if (IsAssigned || !PossibleValues.Contains(value))
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("You tried to assign an impossible value");
             }
 
-            PossibleValues.Remove(value);
+            PossibleValues = new List<int> { value };
             Value = value;
+        }
+        
+        public void RemovePossibility(int value)
+        {
+            if (IsAssigned) return;
+            PossibleValues.Remove(value);
         }
     }
 }

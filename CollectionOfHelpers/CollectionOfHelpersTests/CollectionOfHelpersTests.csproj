@@ -77,6 +77,7 @@
     <Compile Include="StringExtensions\StringFormattingTests.cs" />
     <Compile Include="Sudoku\SudokuCellTests.cs" />
     <Compile Include="Sudoku\SudokuInitialisationTests.cs" />
+    <Compile Include="Sudoku\SudokuSolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Fakes Include="Fakes\System.fakes" />
