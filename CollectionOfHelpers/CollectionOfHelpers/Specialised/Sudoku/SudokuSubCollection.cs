@@ -33,11 +33,11 @@ namespace CollectionOfHelpers.Specialised.Sudoku
             }
         }
 
-        //Set as obsolete becuase it exposes too much of the puzzles under-workings
+        //TODO: Set as obsolete becuase it exposes too much of the puzzles under-workings
         public SudokuCell this[int index]
         {
-            get => cells[index];
-            set => cells[index] = value;
+            get { return cells[index]; }
+            set { cells[index] = value; }
         }
         
         public override string ToString()
