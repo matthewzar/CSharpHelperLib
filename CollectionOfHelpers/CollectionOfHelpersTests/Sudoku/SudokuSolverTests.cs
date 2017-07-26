@@ -11,8 +11,6 @@ namespace CollectionOfHelpersTests.Sudoku
     [TestFixture]
     public class SudokuSolverTests
     {
-      //  [TestCase(0,0)]
-      //  [TestCase(1, 0)]
         [TestCase(0, 1)]
         [TestCase(2, 2)]
         public void SudokuGrid_CheckAutoPossibilityReductionTest(int x, int y)

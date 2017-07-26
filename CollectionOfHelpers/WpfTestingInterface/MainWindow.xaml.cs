@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CollectionOfHelpers.GeneralExtensions;
+using CollectionOfHelpers.Specialised;
 using CollectionOfHelpers.Threading;
 
 namespace WpfTestingInterface
@@ -140,6 +141,11 @@ namespace WpfTestingInterface
             PrgProgressBar.SetPercent(0, 0);
             //If you use the animation ability you won't be able to use Progressbar.Value anymore
             //PrgProgressBar.Value = 0; <-- Doesn't work
+        }
+
+        private void BtnUnipTest_Click(object sender, RoutedEventArgs e)
+        {
+            BulkFileDecompressor.DecompressAndMoveAllChildren(@"D:\Testing\zip.zip", @"D:\Testing\");
         }
     }
 }

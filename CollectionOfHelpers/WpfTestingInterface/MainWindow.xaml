@@ -38,5 +38,6 @@
                 <Button x:Name="BtnReverse" Content="Reverse" HorizontalAlignment="Left" Margin="135,10,0,0" VerticalAlignment="Top" Width="75" Click="BtnReverse_Click"/>
             </Grid>
         </GroupBox>
+        <Button x:Name="BtnUnipTest" Content="Unzip Demo" HorizontalAlignment="Left" Margin="432,289,0,0" VerticalAlignment="Top" Width="75" Click="BtnUnipTest_Click"/>
     </Grid>
 </Window>
