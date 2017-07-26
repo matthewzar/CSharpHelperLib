@@ -42,8 +42,8 @@
       <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.mocks, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -74,6 +74,9 @@
     <Compile Include="PrivateManipulationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensions\StringFormattingTests.cs" />
+    <Compile Include="Sudoku\SudokuCellTests.cs" />
+    <Compile Include="Sudoku\SudokuInitialisationTests.cs" />
+    <Compile Include="Sudoku\SudokuSolverTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Fakes Include="Fakes\System.fakes" />

@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-
 namespace CollectionOfHelpers.ImageProcessing
 {
     public class ImagesToGridGenerator : IDisposable
