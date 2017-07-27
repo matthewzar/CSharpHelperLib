@@ -51,9 +51,8 @@ namespace CollectionOfHelpers.Specialised
             // Copy each file into it's new directory.
             foreach (FileInfo fi in source.GetFiles())
             {
-                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+                //Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
                 MoveFileAndOverwriteOnSizeMatch(target, fi);
-
                 fi.Delete();
             }
 
@@ -79,8 +78,8 @@ namespace CollectionOfHelpers.Specialised
             }
             else
             {
-                int increment = 0;
-                while (File.Exists(destFileName.Replace(".", $"({++increment})."))) ;
+                var increment = 0;
+                while (File.Exists(destFileName.Replace(".", $"({++increment}).")));
                 fileToMove.CopyTo(Path.Combine(targetDir.ToString(), destFileName.Replace(".", $"({increment}).")), true);
             }
         }
@@ -106,6 +105,50 @@ namespace CollectionOfHelpers.Specialised
             }
 
             return listToPopulate;
+        }
+
+
+        public static void MoveAllLeafDirectoriesToRoot(DirectoryInfo rootDirectory)
+        {
+            foreach (var dir in GetCurrentLeafDirectories(rootDirectory))
+            {
+                CopyAll(dir, new DirectoryInfo($"{rootDirectory.FullName}\\{dir.Name}"));
+            }
+        }
+
+        private static List<DirectoryInfo> GetCurrentLeafDirectories(DirectoryInfo rootDirectory)
+        {
+            var allSubDirectories = rootDirectory.GetDirectories("*", SearchOption.AllDirectories);
+
+            return allSubDirectories.Where(IsLeafDirectory).ToList();
+        }
+
+        private static bool IsLeafDirectory(DirectoryInfo directoryToCheck)
+        {
+            return directoryToCheck.GetFiles().Length != 0 && directoryToCheck.GetDirectories().Length == 0;
+        }
+
+        public static bool DeleteEmptySubDirectories(DirectoryInfo rootDirectory)
+        {
+            var foundAtLeastOne = false;
+            foreach (var dir in GetAllEmptyDirectories(rootDirectory))
+            {
+                foundAtLeastOne = true;
+                dir.Delete();
+            }
+            return foundAtLeastOne;
+        }
+
+        private static List<DirectoryInfo> GetAllEmptyDirectories(DirectoryInfo rootDirectory)
+        {
+            var allSubDirectories = rootDirectory.GetDirectories("*", SearchOption.AllDirectories);
+
+            return allSubDirectories.Where(IsEmptyDirectory).ToList();
+        }
+
+        private static bool IsEmptyDirectory(DirectoryInfo directoryToCheck)
+        {
+            return directoryToCheck.GetFiles().Length == 0 && directoryToCheck.GetDirectories().Length == 0;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -145,7 +146,12 @@ namespace WpfTestingInterface
 
         private void BtnUnipTest_Click(object sender, RoutedEventArgs e)
         {
-            BulkFileDecompressor.DecompressAndMoveAllChildren(@"D:\Testing\zip.zip", @"D:\Testing\");
+            BulkFileDecompressor.MoveAllLeafDirectoriesToRoot(new DirectoryInfo("D:\\Testing"));
+            BulkFileDecompressor.DeleteEmptySubDirectories(new DirectoryInfo("D:\\Testing"));
+            //BulkFileDecompressor.MoveAllRarFilesToRoot(new DirectoryInfo("D:\\Testing"))
+
+
+            //BulkFileDecompressor.DecompressAndMoveAllChildren(@"D:\Testing\zip.zip", @"D:\Testing\");
         }
     }
 }
