@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CollectionOfHelpers.FileExtensions;
 using CollectionOfHelpers.GeneralExtensions;
 using CollectionOfHelpers.Specialised;
 using CollectionOfHelpers.Threading;
@@ -146,12 +147,22 @@ namespace WpfTestingInterface
 
         private void BtnUnipTest_Click(object sender, RoutedEventArgs e)
         {
-            BulkFileDecompressor.MoveAllLeafDirectoriesToRoot(new DirectoryInfo("D:\\Testing"));
-            BulkFileDecompressor.DeleteEmptySubDirectories(new DirectoryInfo("D:\\Testing"));
+            //use me to unzip but maintain the zips name:
+            //BulkFileDecompressor.DecompressAllInPlace(new DirectoryInfo("D:\\Testing"));
+
+            //Great for 'flattening' nested content:
+            //BulkFileDecompressor.MoveAllLeafDirectoriesToRoot(new DirectoryInfo("D:\\Testing"));
+
+            //Used to cleanup before repeating (If used one step at a time, it can also reveal patterns in all the folders for grouping that may have been lost/destroyed):
+            //BulkFileDecompressor.DeleteEmptySubDirectories(new DirectoryInfo("D:\\Testing"));
+
+            //yay for making files look newer than they are... no more decade old articles
+            new DirectoryInfo("D:\\Testing").ModifyAllCreationDates();
+
             //BulkFileDecompressor.MoveAllRarFilesToRoot(new DirectoryInfo("D:\\Testing"))
-
-
             //BulkFileDecompressor.DecompressAndMoveAllChildren(@"D:\Testing\zip.zip", @"D:\Testing\");
+
+            MessageBox.Show("DONE");
         }
     }
 }

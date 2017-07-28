@@ -37,5 +37,18 @@ namespace CollectionOfHelpers.FileExtensions
             }
             return total;
         }
+
+        public static void ModifyAllCreationDates(this DirectoryInfo rootDirectory)
+        {
+            foreach (var fileInfo in rootDirectory.GetFiles())
+            {
+                File.SetLastWriteTime(fileInfo.FullName, DateTime.Now);
+            }
+
+            foreach (var directoryInfo in rootDirectory.GetDirectories())
+            {
+                directoryInfo.ModifyAllCreationDates();
+            }
+        }
     }
 }

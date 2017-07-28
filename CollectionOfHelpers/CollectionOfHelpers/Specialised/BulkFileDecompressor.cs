@@ -18,6 +18,28 @@ namespace CollectionOfHelpers.Specialised
             return uniqueAddress;
         }
 
+        /// <summary>
+        /// A file such as myStuff04.zip, will be extraced to a folder named something like myStuff04-ff392a.
+        /// Where the second half of the name is a sub-string of a GUID.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="targetDirectory"></param>
+        /// <returns></returns>
+        public static string ExtractToNamedUniqueSubDirectory(FileInfo file, string targetDirectory)
+        {
+            if (!file.Name.EndsWith(".zip"))
+            {
+                throw new ArgumentException("Cannot unzip the none .zip file: " + file);
+            }
+
+            string conditionalDash = targetDirectory.EndsWith("\\") ? "" : "\\";
+            
+
+            string uniqueAddress = $"{targetDirectory}{conditionalDash}{file.Name.Split('.')[0]}--{Guid.NewGuid().ToString().Substring(0,8)}";
+            ZipFile.ExtractToDirectory(file.FullName, uniqueAddress);
+            return uniqueAddress;
+        }
+
         public static void DecompressAndMoveAllChildren(string fileName, string targetDirectory)
         {
             if (!File.Exists(fileName)) return;
@@ -79,7 +101,7 @@ namespace CollectionOfHelpers.Specialised
             else
             {
                 var increment = 0;
-                while (File.Exists(destFileName.Replace(".", $"({++increment}).")));
+                while (File.Exists(destFileName.Replace(".", $"({++increment})."))) ;
                 fileToMove.CopyTo(Path.Combine(targetDir.ToString(), destFileName.Replace(".", $"({increment}).")), true);
             }
         }
@@ -135,6 +157,7 @@ namespace CollectionOfHelpers.Specialised
             {
                 foundAtLeastOne = true;
                 dir.Delete();
+                Console.WriteLine($"Deleted folder: {dir.FullName}");
             }
             return foundAtLeastOne;
         }
@@ -149,6 +172,18 @@ namespace CollectionOfHelpers.Specialised
         private static bool IsEmptyDirectory(DirectoryInfo directoryToCheck)
         {
             return directoryToCheck.GetFiles().Length == 0 && directoryToCheck.GetDirectories().Length == 0;
+        }
+
+        public static void DecompressAllInPlace(DirectoryInfo rootDirectory)
+        {
+            foreach (var file in rootDirectory.GetFiles())
+            {
+                if (file.Name.EndsWith(".zip"))
+                {
+                    ExtractToNamedUniqueSubDirectory(file, rootDirectory.FullName);
+                    file.Delete();
+                }
+            }
         }
     }
 }
