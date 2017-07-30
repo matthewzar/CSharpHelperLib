@@ -43,9 +43,7 @@ namespace WpfTestingInterface
         {
             var maxDepth = IupExpandDepth.Value;
             if (maxDepth == null)
-            {
                 return;
-            }
             (treeView.Items[0] as TreeViewItem)?.ExpandToDepth((int) maxDepth);
         }
 
@@ -58,9 +56,7 @@ namespace WpfTestingInterface
         {
             var maxDepth = IupExpandTreeDepth.Value;
             if (maxDepth == null)
-            {
                 return;
-            }
             treeView.ExpandToDepth((int) maxDepth);
         }
 
@@ -86,16 +82,14 @@ namespace WpfTestingInterface
         private void BtnStartThreadMonitoring_Click(object sender, RoutedEventArgs e)
         {
             if (ThreadsToMonitor != null)
-            {
                 return;
-            }
 
             //notice that this is declared locally, and not directly stored, but it's outputs continue to show up.
             //This is because a reference to it exists inside each of the child threads.
             //However even without that reference the isntance  and it's thread will continue to work as they are self-referential (at least until the first timeout event)
-            ThreadedEventCounter threadedEventCounter = new ThreadedEventCounter(new[]{"Odd","Even"}, 5, 5000, 100);
+            var threadedEventCounter = new ThreadedEventCounter(new[] {"Odd", "Even"}, 5, 5000, 100);
             ThreadsToMonitor = new Thread[5];
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 var threadID = i;
                 ThreadsToMonitor[i] = new Thread(() =>
@@ -103,8 +97,8 @@ namespace WpfTestingInterface
                     while (true)
                     {
                         Console.WriteLine(threadID + "");
-                        Thread.Sleep(1000+threadID*10);
-                        threadedEventCounter.IncrementEvent(threadID%2 == 0 ? "Even" : "Odd");
+                        Thread.Sleep(1000 + threadID * 10);
+                        threadedEventCounter.IncrementEvent(threadID % 2 == 0 ? "Even" : "Odd");
                     }
                 });
 
@@ -115,16 +109,11 @@ namespace WpfTestingInterface
         private void BtnKillThreads_Click(object sender, RoutedEventArgs e)
         {
             if (ThreadsToMonitor == null)
-            {
                 return;
-            }
 
             foreach (var thread in ThreadsToMonitor)
-            {
                 thread.Abort();
-            }
             ThreadsToMonitor = null;
-
         }
 
         private void BtnShowProgress_Click(object sender, RoutedEventArgs e)
@@ -147,6 +136,43 @@ namespace WpfTestingInterface
 
         private void BtnUnipTest_Click(object sender, RoutedEventArgs e)
         {
+            //make a collection of files with duplicates listed
+            var root = "G:\\Business Resources\\PLR Articles\\FilteredStartups";
+            var filesByName = new Dictionary<string, List<FileInfo>>();
+            foreach (var file in new DirectoryInfo(root).EnumerateFiles("*", SearchOption.AllDirectories))
+            {
+                if (!filesByName.ContainsKey(file.Name))
+                {
+                    filesByName.Add(file.Name, new List<FileInfo>());
+                }
+                filesByName[file.Name].Add(file);
+            }
+
+            int cnt = 0;
+            int sameName = 0;
+            //duplication highlighting (and potentially deletion
+            foreach (var keyValuePair in filesByName)
+            {
+                if (keyValuePair.Value.Count > 1)
+                {
+                    sameName++;
+                    for (int i = 0; i < keyValuePair.Value.Count-1; i++)
+                    {
+                        if (keyValuePair.Value[i].Length == keyValuePair.Value[i + 1].Length)
+                        {
+                            //TODO - check if file sizes differ, and change behaviour as appropriate
+                            cnt++;
+                        }
+                    }
+                }
+            }
+            Console.WriteLine(sameName);
+            Console.WriteLine(cnt);
+            //TODO - remove non-txt files.
+            //TODO - pull all zip and rar files to root.
+            //TODO - performs a more careful check for duplication, then remove the duplicates
+            //TODO - Add a directory keyword organiser: moves all files to the root and into subfolders named by their 3/4 top keywords
+
             //use me to unzip but maintain the zips name:
             //BulkFileDecompressor.DecompressAllInPlace(new DirectoryInfo("D:\\Testing"));
 
@@ -157,7 +183,7 @@ namespace WpfTestingInterface
             //BulkFileDecompressor.DeleteEmptySubDirectories(new DirectoryInfo("D:\\Testing"));
 
             //yay for making files look newer than they are... no more decade old articles
-            new DirectoryInfo("D:\\Testing").ModifyAllCreationDates();
+            //new DirectoryInfo("D:\\Testing").ModifyAllCreationDates();
 
             //BulkFileDecompressor.MoveAllRarFilesToRoot(new DirectoryInfo("D:\\Testing"))
             //BulkFileDecompressor.DecompressAndMoveAllChildren(@"D:\Testing\zip.zip", @"D:\Testing\");
