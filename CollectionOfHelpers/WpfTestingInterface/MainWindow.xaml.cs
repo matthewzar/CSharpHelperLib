@@ -141,11 +141,30 @@ namespace WpfTestingInterface
             var filesByName = new Dictionary<string, List<FileInfo>>();
             foreach (var file in new DirectoryInfo(root).EnumerateFiles("*", SearchOption.AllDirectories))
             {
+//                if (!file.Name.ToLower().EndsWith(".txt"))
+//                {
+//                    Console.WriteLine(file.FullName);
+//                    file.Delete();
+//                    continue;
+//                }
+
                 if (!filesByName.ContainsKey(file.Name))
                 {
                     filesByName.Add(file.Name, new List<FileInfo>());
                 }
                 filesByName[file.Name].Add(file);
+
+                try
+                {
+                    var fullText = File.ReadAllText(file.FullName);
+                    if (fullText.Contains("articlecity")) SanitiseArticleCityFile(file); //reform files to not reference their source, when from ArticleCity
+                    else if(fullText.Contains("я") || fullText.Contains("й")) file.Delete(); //delete corrupt looking files
+                    else if (fullText.Contains("hoplink") || fullText.Contains("clickbank")) Console.WriteLine("clickbank: " + file.FullName);
+                }
+                catch (PathTooLongException exception)
+                {
+                    Console.WriteLine(file.FullName);
+                }
             }
 
             int cnt = 0;
@@ -162,7 +181,9 @@ namespace WpfTestingInterface
                         {
                             //TODO - check if file sizes differ, and change behaviour as appropriate
                             cnt++;
+                           // keyValuePair.Value[i].Delete();
                         }
+                       // Console.WriteLine(keyValuePair.Value[i].FullName);
                     }
                 }
             }
@@ -189,6 +210,71 @@ namespace WpfTestingInterface
             //BulkFileDecompressor.DecompressAndMoveAllChildren(@"D:\Testing\zip.zip", @"D:\Testing\");
 
             MessageBox.Show("DONE");
+        }
+
+        private void SanitiseArticleCityFile(FileInfo fileToReplace)
+        {
+            var content = SanitiseArticleCityFile(File.ReadAllLines(fileToReplace.FullName));
+            if (content != null)
+            {
+                File.WriteAllText(fileToReplace.FullName, content);
+            }
+        }
+
+        private string SanitiseArticleCityFile(string[] entireArticle)
+        {
+            StringBuilder rebuilt = new StringBuilder();
+            rebuilt.AppendLine(entireArticle[0].Replace("title:", "Title: "));
+            if (!entireArticle[1].Contains("author")) return null;
+            if (!entireArticle[2].Contains("source_url")) return null;
+            if (!entireArticle[3].Contains("date_saved")) return null;
+
+            rebuilt.AppendLine(entireArticle[4].Replace("category:", "Category: "));
+
+            if (!entireArticle[5].Contains("article")) return null;
+
+            for (int i = 6; i < entireArticle.Length; i++)
+            {
+                rebuilt.AppendLine(entireArticle[i].Replace("ZZZZZZ", ""));
+            }
+
+            return rebuilt.ToString();
+        }
+
+        private void Btn_Redate_Click(object sender, RoutedEventArgs e)
+        {
+            var root = "G:\\Business Resources\\PLR Articles\\FilteredStartups";
+            BulkFileDecompressor.DeleteEmptySubDirectories(new DirectoryInfo(root));
+            new DirectoryInfo(root).ModifyAllCreationDates();
+
+        }
+
+        private void Btn_AddSourceLine_Click(object sender, RoutedEventArgs e)
+        {
+            var directory = "G:\\Business Resources\\PLR Articles\\FilteredStartups\\Sport - Copy\\";
+            var newLine = "Source: https://omnologist.com/product/sports-plr-article-bundle/";
+            Dictionary<string,string> folderSourcePair = new Dictionary<string, string>()
+            {
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Business, Finance and Marketing\\","https://omnologist.com/product/finances-business-and-marketing-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Cars and Autos\\","https://omnologist.com/product/cars-and-autos-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Education\\","https://omnologist.com/product/education-plr-article-bundle-copy/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Family\\","https://omnologist.com/product/family-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Finance\\","https://omnologist.com/product/finance-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Health And Fitness\\","https://omnologist.com/product/health-and-fitness-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Hobbies\\","https://omnologist.com/product/hobbies-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Home And Garden\\","https://omnologist.com/product/home-and-garden-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Personal Finance\\","https://omnologist.com/product/personal-finances-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Self Development\\","https://omnologist.com/product/self-development-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Sport\\","https://omnologist.com/product/sports-plr-article-bundle/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Travel And Leisure\\","https://omnologist.com/product/travel-and-leisure-plr-article-bundle-copy/"},
+                {"G:\\Business Resources\\PLR Articles\\FilteredStartups\\Womens Issues\\","https://omnologist.com/product/womens-issues-plr-article-bundle/"}
+            };
+            foreach (var keyValuePair in folderSourcePair)
+            {
+                new DirectoryInfo(keyValuePair.Key).PrependStringToAllFiles("Source: " + keyValuePair.Value);
+            }
+
+            MessageBox.Show(":P");
         }
     }
 }

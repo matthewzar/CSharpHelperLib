@@ -50,5 +50,28 @@ namespace CollectionOfHelpers.FileExtensions
                 directoryInfo.ModifyAllCreationDates();
             }
         }
+
+        public static void PrependStringToAllFiles(this DirectoryInfo root, string stringToPrepend)
+        {
+            foreach (var file in root.GetFiles("*", SearchOption.AllDirectories))
+            {
+                file.PrependStringToFile(stringToPrepend);
+            }
+        }
+
+        public static void PrependStringToFile(this FileInfo file, string stringToPrepend)
+        {
+            File.WriteAllText(file.FullName, stringToPrepend + "\r\n" + File.ReadAllText(file.FullName));
+        }
+
+        public static void FakeBulkFileNameChange(DirectoryInfo root)
+        {
+            foreach (var file in root.GetFiles("*", SearchOption.AllDirectories))
+            {
+                var fullname = file.FullName;
+                File.Move(fullname, fullname + "-_-");
+                File.Move(fullname + "-_-", fullname);
+            }
+        }
     }
 }
