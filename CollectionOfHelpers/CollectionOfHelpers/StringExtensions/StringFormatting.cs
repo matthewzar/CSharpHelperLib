@@ -55,13 +55,13 @@ namespace CollectionOfHelpers.StringExtensions
         }
         
         /// <summary>
-        /// Removes all instances of substring from the string.
+        /// Removes all instances of subString from mainString.
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string Remove(this string substring)
+        public static string Remove(this string mainString, string subString)
         {
-            return substring.Replace(substring, "");
+            return mainString.Replace(subString, "");
         }
     }
 }
