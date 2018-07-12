@@ -38,5 +38,30 @@ namespace CollectionOfHelpers.StringExtensions
             //https://stackoverflow.com/questions/155303/net-how-can-you-split-a-caps-delimited-string-into-an-array
             return Regex.Replace(toFormat, "([a-z](?=[A-Z]|[0-9])|[A-Z](?=[A-Z][a-z]|[0-9])|[0-9](?=[^0-9]))", "$1 ", RegexOptions.Compiled);
         }
+        
+        //TODO - test whether this version of the camel case splitting regex is more/less efficient
+        //(and what cases it covers) compared to the above one.
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
+        }
+        
+        /// <summary>
+        /// Removes all instances of substring from the string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string Remove(this string substring)
+        {
+            return substring.Replace(substring, "");
+        }
     }
 }
