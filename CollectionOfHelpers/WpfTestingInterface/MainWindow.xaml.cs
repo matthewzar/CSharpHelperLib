@@ -14,7 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CollectionOfHelpers.GeneralExtensions;
+using CollectionOfHelpers.ImageProcessing;
 using CollectionOfHelpers.Threading;
+using System.Drawing;
 
 namespace WpfTestingInterface
 {
@@ -140,6 +142,24 @@ namespace WpfTestingInterface
             PrgProgressBar.SetPercent(0, 0);
             //If you use the animation ability you won't be able to use Progressbar.Value anymore
             //PrgProgressBar.Value = 0; <-- Doesn't work
+        }
+
+        private void DemoOfImagesToGridDrawer()
+        {
+            ImagesToGridGenerator test = new ImagesToGridGenerator(new[] { @"D:\testimages\1.png", @"D:\testimages\2.png", @"D:\testimages\3.png", @"D:\testimages\4.png" })
+            {
+                TargetWidth = 200,
+                TargetHeight = 200,
+                TotalRows = 2,
+                TotalColumns = 2
+            };
+
+            var temp = test.GetLoadedImageAsGrid();
+            temp.Save(@"D:\testimages\out.bmp");
+            temp.Save(@"D:\testimages\out.png");
+            temp.Save(@"D:\testimages\out.jpg");
+
+            test.Dispose();
         }
     }
 }

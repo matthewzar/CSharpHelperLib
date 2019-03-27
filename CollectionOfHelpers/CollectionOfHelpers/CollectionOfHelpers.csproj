@@ -34,6 +34,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,6 +50,7 @@
     <Compile Include="GeneralExtensions\DictionaryExtensions.cs" />
     <Compile Include="GeneralExtensions\WpfFunctionality.cs" />
     <Compile Include="GeneralExtensions\WpfReadability.cs" />
+    <Compile Include="ImageProcessing\ImagesToGridGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\PrivateManipulation.cs" />
     <Compile Include="Specialised\Sudoku\IPossibilitiesGenerator.cs" />
